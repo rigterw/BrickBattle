@@ -378,6 +378,9 @@ MonoBehaviour:
   brick: {fileID: 5144280071469869361, guid: 37ff59e336acbde45959095344304e1b, type: 3}
   rows: 0
   collums: 0
+  rowColors:
+  - {r: 0, g: 1, b: 0.15310955, a: 1}
+  - {r: 0, g: 0.29115725, b: 1, a: 1}
 --- !u!1 &1348086652
 GameObject:
   m_ObjectHideFlags: 0

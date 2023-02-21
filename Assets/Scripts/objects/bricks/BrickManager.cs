@@ -5,20 +5,37 @@ using UnityEngine;
 
 public class BrickManager : MonoBehaviour
 {
-    [SerializeField] private GameObject brick;
+    //variables used in grid positions calculation
     [SerializeField] private int rows;
     [SerializeField] private int collums;
+    [SerializeField] private float gridHeight;
+    [SerializeField] private float offset;
+    [SerializeField] private float paddingX;
+    [SerializeField] private float paddingY;
+
     [SerializeField] private Color[] rowColors;
+    [SerializeField] private GameObject brick;
+
 
     private List<GameObject> p1Bricks = new List<GameObject>();
     private List<GameObject> p2Bricks = new List<GameObject>();
     void Start()
     {
+        if(gridHeight <= 0){
+            gridHeight = collums * (paddingY + brick.GetComponent<Renderer>().bounds.size.y);
+        }
         CreateGrid();
     }
 
     private void CreateGrid(){
-        p1Bricks.Add(SpawnBrick(0,0));
+        for (int r = 0; r < rows; r++){
+            for (int c = 0; c < collums; c++){
+                p1Bricks.Add(SpawnBrick(r, calculatePosition(r,c,false)));
+                p1Bricks[r * c].name = "p1";
+                p2Bricks.Add(SpawnBrick(r, calculatePosition(r, c, true)));
+            }
+        }
+        
     }
 
     /// <summary>
@@ -26,11 +43,51 @@ public class BrickManager : MonoBehaviour
     /// </summary>
     /// <param name="r">the row of the brick  </param>
     /// <param name="c">the colum of the brick</param>
-    private GameObject SpawnBrick(int r, int c, bool top = false){
-        GameObject brickObject = Instantiate(brick);
+    private GameObject SpawnBrick(int r, Vector2 position){
+        GameObject brickObject = Instantiate(brick, position, transform.rotation);
         brickObject.GetComponent<Brick>().Init(this, rowColors[r]);
 
         return brickObject;
+    }
+
+    /// <summary>
+    /// calculates the position for the new brick
+    /// </summary>
+    /// <param name="r">the row of the brick</param>
+    /// <param name="c">the colum of the brick</param>
+    /// <param name="top">whether the brick is for the top player or not</param>
+    /// <returns></returns>
+    private Vector2 calculatePosition(int r, int c, bool top){
+        return new Vector2(calculateX(c), calculateY(r,top));
+    }
+
+    /// <summary>
+    /// calculates the X position for the brick
+    /// </summary>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    private float calculateX(int c){
+        float spacing = (CameraHandler.playArea.width - paddingX) / collums;
+        float Xoffset = CameraHandler.playArea.xMin + paddingX + 0.5f * spacing;
+        return c * spacing + Xoffset;
+    }
+
+    /// <summary>
+    /// calculates the Y position for the brick
+    /// </summary>
+    /// <param name="r">the row of the brick</param>
+    /// <param name="top">whether the brick is for the top player or not</param>
+    /// <returns></returns>
+    private float calculateY(int r, bool top){
+        float spacing = (gridHeight - paddingY) / rows;
+
+        int director = top ? 1 : -1;
+        float borderY = top ? CameraHandler.playArea.yMax : CameraHandler.playArea.yMin;
+
+        float Yoffset = borderY - director * (offset + gridHeight);
+        Debug.Log(r +" "+director +" "+ spacing +" "+ Yoffset);
+        return r * director * spacing + Yoffset;
+
     }
 
     public void Remove(GameObject brick){
@@ -42,10 +99,5 @@ public class BrickManager : MonoBehaviour
             Debug.LogError("brickmanager got passed a brick that wasn't in any list");
             return;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

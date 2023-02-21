@@ -1,4 +1,4 @@
-﻿{
+{
     "files.exclude":
     {
         "**/.DS_Store":true,
@@ -50,6 +50,10 @@
         "Obj/":true,
         "ProjectSettings/":true,
         "temp/":true,
-        "Temp/":true
+        "Temp/":true,
+        "**/*.csproj":true,
+        "Logs/":true,
+        "Packages/":true,
+        "UserSettings/":true
     }
 }

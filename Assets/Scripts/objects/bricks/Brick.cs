@@ -27,7 +27,7 @@ public class Brick : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other){
-        if(!other.gameObject.CompareTag("ball"))return;
+        if(!other.gameObject.CompareTag("Ball"))return;
 
         Destroy();
     }

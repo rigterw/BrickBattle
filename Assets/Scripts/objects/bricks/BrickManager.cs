@@ -58,7 +58,7 @@ public class BrickManager : MonoBehaviour
     /// <param name="top">whether the brick is for the top player or not</param>
     /// <returns></returns>
     private Vector2 calculatePosition(int r, int c, bool top){
-        return new Vector2(calculateX(c), calculateY(r,top));
+        return new Vector2(calculateX(c, setWidth()), calculateY(r,top));
     }
 
     /// <summary>
@@ -66,10 +66,24 @@ public class BrickManager : MonoBehaviour
     /// </summary>
     /// <param name="c"></param>
     /// <returns></returns>
-    private float calculateX(int c){
-        float spacing = (CameraHandler.playArea.width - paddingX) / collums;
+    private float calculateX(int c, float spacing){
         float Xoffset = CameraHandler.playArea.xMin + paddingX + 0.5f * spacing;
         return c * spacing + Xoffset;
+    }
+
+    private float setWidth(){
+        float spacing = (CameraHandler.playArea.width - paddingX) / collums;
+
+        var rectTransform = brick.GetComponent<RectTransform>();
+		if (rectTransform != null)
+		{
+            //changes the width of the bricks so they don't overlap
+            Vector3 scale = brick.transform.localScale;
+            scale.x =  (spacing*10 - paddingX) / brick.GetComponent<Renderer>().bounds.size.x;
+            brick.transform.localScale = scale;
+        }
+
+        return spacing;
     }
 
     /// <summary>
@@ -85,7 +99,6 @@ public class BrickManager : MonoBehaviour
         float borderY = top ? CameraHandler.playArea.yMax : CameraHandler.playArea.yMin;
 
         float Yoffset = borderY - director * (offset + gridHeight);
-        Debug.Log(r +" "+director +" "+ spacing +" "+ Yoffset);
         return r * director * spacing + Yoffset;
 
     }

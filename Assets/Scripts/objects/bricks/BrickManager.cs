@@ -22,8 +22,11 @@ public class BrickManager : MonoBehaviour
     void Start()
     {
         if(gridHeight <= 0){
-            gridHeight = collums * (paddingY + brick.GetComponent<Renderer>().bounds.size.y);
+            Debug.LogError("No gridHeight given!!!");
+            gridHeight = 2.5f;
         }
+
+        setSize();
         CreateGrid();
     }
 
@@ -46,7 +49,6 @@ public class BrickManager : MonoBehaviour
     private GameObject SpawnBrick(int r, Vector2 position){
         GameObject brickObject = Instantiate(brick, position, transform.rotation);
         brickObject.GetComponent<Brick>().Init(this, rowColors[r]);
-
         return brickObject;
     }
 
@@ -58,7 +60,7 @@ public class BrickManager : MonoBehaviour
     /// <param name="top">whether the brick is for the top player or not</param>
     /// <returns></returns>
     private Vector2 calculatePosition(int r, int c, bool top){
-        return new Vector2(calculateX(c, setWidth()), calculateY(r,top));
+        return new Vector2(calculateX(c), calculateY(r,top));
     }
 
     /// <summary>
@@ -66,24 +68,28 @@ public class BrickManager : MonoBehaviour
     /// </summary>
     /// <param name="c"></param>
     /// <returns></returns>
-    private float calculateX(int c, float spacing){
+    private float calculateX(int c){
+        float spacing = (CameraHandler.playArea.width - paddingX) / collums;
         float Xoffset = CameraHandler.playArea.xMin + paddingX + 0.5f * spacing;
         return c * spacing + Xoffset;
     }
 
-    private float setWidth(){
-        float spacing = (CameraHandler.playArea.width - paddingX) / collums;
+    /// <summary>
+    /// sets the size of the bricks
+    /// </summary>
+    private void setSize(){
+        float width = (CameraHandler.playArea.width - paddingX) / collums;
+        float height = (gridHeight - paddingY) / rows;
+        Vector2 size = new Vector2(width, height);
 
-        var rectTransform = brick.GetComponent<RectTransform>();
-		if (rectTransform != null)
-		{
-            //changes the width of the bricks so they don't overlap
-            Vector3 scale = brick.transform.localScale;
-            scale.x =  (spacing*10 - paddingX) / brick.GetComponent<Renderer>().bounds.size.x;
-            brick.transform.localScale = scale;
-        }
+        //sets the image size
+        SpriteRenderer spriteRenderer = brick.GetComponent<SpriteRenderer>();
+        spriteRenderer.size = size;
 
-        return spacing;
+        //sets the collider size
+        BoxCollider2D collider = brick.GetComponent<BoxCollider2D>();
+        collider.size = size;
+
     }
 
     /// <summary>
@@ -95,10 +101,15 @@ public class BrickManager : MonoBehaviour
     private float calculateY(int r, bool top){
         float spacing = (gridHeight - paddingY) / rows;
 
+        //whether the grid is build from middle to up or down
         int director = top ? 1 : -1;
+
         float borderY = top ? CameraHandler.playArea.yMax : CameraHandler.playArea.yMin;
 
+        //the starting point to build the grid from
         float Yoffset = borderY - director * (offset + gridHeight);
+
+
         return r * director * spacing + Yoffset;
 
     }

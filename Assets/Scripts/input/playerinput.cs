@@ -20,7 +20,7 @@ public class playerinput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int direction = SystemInfo.supportsGyroscope ? moveByGyro() : moveByTouch();
+        Direction direction = SystemInfo.supportsGyroscope ? moveByGyro() : moveByTouch();
         controller.Move(direction);
     }
 
@@ -28,9 +28,9 @@ public class playerinput : MonoBehaviour
     /// returns direction according to phone rotation
     /// </summary>
     /// <returns>-1 for left, 1 for right and 0 for none</returns>
-    private int moveByGyro()
+    private Direction moveByGyro()
     {
-        return 0;
+        return Direction.idle;
 
         //TODO: add Gyro input
     }
@@ -40,11 +40,11 @@ public class playerinput : MonoBehaviour
     /// calculates a direction from the touch inputs
     /// </summary>
     /// <returns>-1 for left, 1 for right and 0 for no direction</returns>
-    private int moveByTouch(){
+    private Direction moveByTouch(){
         int direction = 0;
 
         if(Input.touchCount <= 0)
-            return 0;
+            return Direction.idle;
 
         for (int i = 0; i < Input.touchCount; i++)
         {
@@ -54,9 +54,9 @@ public class playerinput : MonoBehaviour
         }
 
         if(direction == 0)
-            return 0;
+            return Direction.idle;
 
-        return direction > 0 ? 1 : -1;
+        return direction > 0 ? Direction.right : Direction.left;
 
     }
 }

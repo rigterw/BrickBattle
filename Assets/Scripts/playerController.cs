@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Direction
+{
+    left = -1,
+    idle = 0,
+    right = 1
+}
+
 public class playerController : MonoBehaviour
 {
     [SerializeField] private float speed;
@@ -15,9 +22,9 @@ public class playerController : MonoBehaviour
 
     }
 
-    public void Move(int direction){
+    public void Move(Direction direction){
         
-        transform.position += new Vector3(direction * speed * speedScale, 0,0);
+        transform.position += new Vector3((int)direction * speed * speedScale, 0,0);
         transform.position = ConstrainPosition(transform.position);
 
     }

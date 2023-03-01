@@ -8,18 +8,14 @@ public class playerController : MonoBehaviour
     private const float speedScale = 0.004f;
     private float radius;
     private void Start(){
-        if(SystemInfo.supportsGyroscope){
-            Input.gyro.enabled = true;
-        }
+       
 
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         radius = sprite.bounds.size.x / 2;
 
     }
 
-    private void Update(){
-        int direction = SystemInfo.supportsGyroscope ? moveByGyro() : moveByTouch();
-
+    public void Move(int direction){
         
         transform.position += new Vector3(direction * speed * speedScale, 0,0);
         transform.position = ConstrainPosition(transform.position);
@@ -35,39 +31,5 @@ public class playerController : MonoBehaviour
         return position;
     }
 
-    /// <summary>
-    /// returns direction according to phone rotation
-    /// </summary>
-    /// <returns>-1 for left, 1 for right and 0 for none</returns>
-    private int moveByGyro()
-    {
-        return 0;
-
-        //TODO: add Gyro input
-    }
-
-
-    /// <summary>
-    /// calculates a direction from the touch inputs
-    /// </summary>
-    /// <returns>-1 for left, 1 for right and 0 for no direction</returns>
-    private int moveByTouch(){
-        int direction = 0;
-
-        if(Input.touchCount <= 0)
-            return 0;
-
-        for (int i = 0; i < Input.touchCount; i++)
-        {
-            Touch touch = Input.touches[i];
-
-            direction += touch.position.x > Screen.width / 2 ? 1 : -1;
-        }
-
-        if(direction == 0)
-            return 0;
-
-        return direction > 0 ? 1 : -1;
-
-    }
+    
 }

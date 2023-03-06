@@ -22,13 +22,16 @@ public class AI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Direction direction = Direction.idle;
         var value = Random.value;
 
+        if(ball.position.y > transform.position.y){
+
+        }
         //ball moving away
-        if(ballrb.velocity.y < 0 && value < followStrength)
+        else if(ballrb.velocity.y < 0 && value < followStrength)
         direction = defend();
         //ball moving up
         else if(ballrb.velocity.y > 0 && value < defendFollowStrength)
@@ -56,6 +59,13 @@ public class AI : MonoBehaviour
         if( margin > Mathf.Abs(ball.transform.position.x - transform.position.x))
             return Direction.idle;
         if(ball.transform.position.x > transform.position.x)
+            return Direction.right;
+
+        return Direction.left;
+    }
+
+    private Direction evade(){
+        if(ball.transform.position.x < transform.position.x)
             return Direction.right;
 
         return Direction.left;

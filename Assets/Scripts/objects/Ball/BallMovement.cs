@@ -6,9 +6,10 @@ public class BallMovement : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] float acceleration;
-    Vector3 Velocity;
-    Rigidbody2D rb;
+    private Vector3 Velocity;
+    private Rigidbody2D rb;
     public bool active = false;
+    private bool hasFlipped = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +30,16 @@ public class BallMovement : MonoBehaviour
         }else{
             rb.velocity = Vector2.zero;
         }
+
+        hasFlipped = false;
     }
 
 
 
 
     void OnCollisionEnter2D(Collision2D col){
+        if(hasFlipped)
+            return;
         Vector3 collisionNormal = col.contacts[0].normal;
         bool topDownCollision = Mathf.Abs(collisionNormal.y) > Mathf.Abs(collisionNormal.x);
 
@@ -45,6 +50,7 @@ public class BallMovement : MonoBehaviour
             Velocity /= acceleration;
             wallBounce(topDownCollision);
         }
+        hasFlipped = true;
     }
 
     /// <summary>

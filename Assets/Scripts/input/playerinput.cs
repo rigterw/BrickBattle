@@ -18,7 +18,7 @@ public class playerinput : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Direction direction = SystemInfo.supportsGyroscope ? moveByGyro() : moveByTouch();
         controller.Move(direction);
@@ -57,6 +57,5 @@ public class playerinput : MonoBehaviour
             return Direction.idle;
 
         return direction > 0 ? Direction.right : Direction.left;
-
     }
 }

@@ -3,29 +3,35 @@ using TMPro;
 using System.Collections;
 public class GameManager : MonoBehaviour
 {
-    private enum player
+    public enum player
     {
         you = 1, opponent = 2
     }
 
     [SerializeField]private int pointsToWin;
     [SerializeField] private Transform UI;
+    private TextMeshProUGUI messageField;
+    private GameObject resetButton;
     private TextMeshProUGUI scoreUI;
     private int txtAlfa = 0;
-    private TextMeshProUGUI messageField;
-
     private scoreTracker scoreTracker;
+    private BrickManager brickManager;
     [SerializeField]private Transform ball;
     // Start is called before the first frame update
     void Start()
     {
         messageField = UI.Find("messageField").GetComponent<TextMeshProUGUI>();
         scoreUI = UI.Find("Score").GetComponent<TextMeshProUGUI>();
+        resetButton = UI.Find("Reset").gameObject;
+
+
         scoreUI.color = new Color(255,0,0,0);
         TextMeshProUGUI[] scoreUIs = { scoreUI, GameObject.Find("bgScore").GetComponent<TextMeshProUGUI>() };
-        scoreTracker = new scoreTracker(pointsToWin, scoreUIs);
 
-        StartCoroutine(resetGame());
+        scoreTracker = new scoreTracker(pointsToWin, scoreUIs);
+        brickManager = GetComponent<BrickManager>();
+
+        StartCoroutine(resetBall());
     }
 
     // Update is called once per frame
@@ -37,18 +43,40 @@ public class GameManager : MonoBehaviour
 
     private void Score(float ballHeight){
         player scoringPlayer = ballHeight > 0 ? player.you : player.opponent;
+        player loser = scoringPlayer == player.you ? player.opponent : player.you;
 
-        if(scoreTracker.AddPoint((int)scoringPlayer))
+        brickManager.resetPlayer(loser);
+
+        if(scoreTracker.AddPoint((int)scoringPlayer)){
             EndGame(scoringPlayer);
-        else
-            StartCoroutine(resetGame());
+            return;
+        }
+        StartCoroutine(delayFade());
+        StartCoroutine(resetBall());
 
     }
 
-    public IEnumerator resetGame(){
+    /// <summary>
+    /// fades the score
+    /// </summary>
+    private IEnumerator delayFade(){
+        scoreUI.color = new Color(scoreUI.color.r, scoreUI.color.g, scoreUI.color.b, 1f);
+        yield return new WaitForSeconds(2);
+
+        while (scoreUI.color.a > 0f){
+            scoreUI.color = new Color(scoreUI.color.r, scoreUI.color.g, scoreUI.color.b, scoreUI.color.a - (Time.deltaTime / 1f));
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public IEnumerator resetBall(){
+
+
+        ball.gameObject.SetActive(true);
         ball.position = new Vector2(0, 0);
         BallMovement ballM = ball.GetComponent<BallMovement>();
         ballM.active = false;
+        
         int timer = 3;
         for (int i = timer; i > 0; i--)
         {
@@ -62,10 +90,21 @@ public class GameManager : MonoBehaviour
 
     private void EndGame(player winningPlayer){
         ball.gameObject.SetActive(false);
+        ball.transform.position = new Vector2(0, 0);
 
+        resetButton.SetActive(true);
+        scoreUI.color = new Color(scoreUI.color.r, scoreUI.color.g, scoreUI.color.b, 1f);
         if(winningPlayer == player.you)
             messageField.text = "You win!";
         else
             messageField.text = "you lose";
+    }
+
+    public void ResetGame(){
+        scoreTracker.reset();
+        StartCoroutine(resetBall());
+        resetButton.SetActive(false);
+        scoreUI.color = new Color(scoreUI.color.r, scoreUI.color.g, scoreUI.color.b, 0f);
+        brickManager.resetGrid();
     }
 }

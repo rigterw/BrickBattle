@@ -38,7 +38,39 @@ public class BrickManager : MonoBehaviour
                 p2Bricks.Add(SpawnBrick(r, calculatePosition(r, c, true)));
             }
         }
-        
+    }
+
+    public void resetPlayer(GameManager.player player){
+        List<GameObject> temp = new List<GameObject>();
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < collums; c++)
+            {
+                temp.Add(SpawnBrick(r, calculatePosition(r,c,player == GameManager.player.opponent)));
+            }
+        }
+        if(player != GameManager.player.opponent){
+            foreach (GameObject brick in p1Bricks){
+                Destroy(brick);
+            }
+            p1Bricks = temp;
+        }else{
+            foreach (GameObject brick in p2Bricks){
+                Destroy(brick);
+            }
+            p2Bricks = temp;
+        }
+    }
+
+    public void resetGrid(){
+        foreach (GameObject brick in p2Bricks){
+            Destroy(brick);
+        }
+        foreach (GameObject brick in p2Bricks){
+            Destroy(brick);
+        }
+
+        CreateGrid();
     }
 
     /// <summary>

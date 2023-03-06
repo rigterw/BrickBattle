@@ -24,9 +24,15 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!active) return;
+        if(active){
         rb.velocity = Velocity;
+        }else{
+            rb.velocity = Vector2.zero;
+        }
     }
+
+
+
 
     void OnCollisionEnter2D(Collision2D col){
         Vector3 collisionNormal = col.contacts[0].normal;

@@ -49,6 +49,7 @@ public class BrickManager : MonoBehaviour
     private GameObject SpawnBrick(int r, Vector2 position){
         GameObject brickObject = Instantiate(brick, position, transform.rotation);
         brickObject.GetComponent<Brick>().Init(this, rowColors[r]);
+        brickObject.transform.SetParent(transform);
         return brickObject;
     }
 

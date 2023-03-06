@@ -8,6 +8,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField] float acceleration;
     Vector3 Velocity;
     Rigidbody2D rb;
+    public bool active = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,9 @@ public class BallMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if(!active) return;
         rb.velocity = Velocity;
     }
 
@@ -59,8 +61,11 @@ public class BallMovement : MonoBehaviour
 
 
         Velocity = new Vector2(xdir, ydir) * speed;
+    }
 
-
+    public void Reset(){
+        int dir = Velocity.y > 0 ? -1 : 1;
+        Velocity = new Vector2(0, dir * speed);
     }
 
     private void wallBounce(bool tdCollision){

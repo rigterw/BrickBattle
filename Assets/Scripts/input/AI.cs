@@ -45,7 +45,6 @@ public class AI : MonoBehaviour
     /// <param name="rValue">the value from the state randomiser</param>
     /// <returns>a direction based on the random value</returns>
     private Direction Idle(float rValue){
-        Debug.Log("idle");
         if(rValue % 3 == 0)
             return Direction.left;
         else if(rValue % 3 == 1)
@@ -54,7 +53,6 @@ public class AI : MonoBehaviour
     }
 
     private Direction defend(){
-        Debug.Log("defend");
         if( margin > Mathf.Abs(ball.transform.position.x - transform.position.x))
             return Direction.idle;
         if(ball.transform.position.x > transform.position.x)

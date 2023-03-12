@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private scoreTracker scoreTracker;
     private BrickManager brickManager;
     [SerializeField]private Transform ball;
+
+    private AudioSource bgm;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
 
         scoreTracker = new scoreTracker(pointsToWin, scoreUIs);
         brickManager = GetComponent<BrickManager>();
+        bgm = GetComponent<AudioSource>();
 
         StartCoroutine(resetBall());
     }
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Score(float ballHeight){
+        bgm.Stop();
         player scoringPlayer = ballHeight > 0 ? player.you : player.opponent;
         player loser = scoringPlayer == player.you ? player.opponent : player.you;
 
@@ -83,11 +87,18 @@ public class GameManager : MonoBehaviour
             messageField.text = $"{i}";
             yield return new WaitForSeconds(1);
         }
+
+        bgm.Play();
+
         messageField.text = "";
         ballM.active = true;
         ballM.Reset();
     }
 
+    /// <summary>
+    /// stops the game and shows if the player has won
+    /// </summary>
+    /// <param name="winningPlayer">the player who has won</param>
     private void EndGame(player winningPlayer){
         ball.gameObject.SetActive(false);
         ball.transform.position = new Vector2(0, 0);
@@ -100,6 +111,9 @@ public class GameManager : MonoBehaviour
             messageField.text = "you lose";
     }
 
+    /// <summary>
+    /// resets the game back to the begin point
+    /// </summary>
     public void ResetGame(){
         scoreTracker.reset();
         StartCoroutine(resetBall());

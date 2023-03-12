@@ -38,5 +38,13 @@ public class playerController : MonoBehaviour
         return position;
     }
 
-    
+    void OnCollisionEnter2D(Collision2D col) { 
+
+        if(col.gameObject.CompareTag("Ball"))
+            GetComponent<AudioSource>().Play();
+    }
+
+
+
+
 }

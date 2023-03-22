@@ -655,6 +655,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5552593803776389722, guid: f8cab2cfea7743946bf9a1ceec6f8517, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -7898396995386204980, guid: ddf8569de6dbe2b47982b8d0cf858a52, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8cab2cfea7743946bf9a1ceec6f8517, type: 3}
 --- !u!1 &389627925
@@ -971,7 +975,7 @@ AudioSource:
   m_GameObject: {fileID: 578949339}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 352443111243035152, guid: ddf8569de6dbe2b47982b8d0cf858a52, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1e8ca41c71680404eafc2eab62e11f31, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1651,12 +1655,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 685553011, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 838500810, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 838500810, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 838500810, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829148024, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
@@ -1673,7 +1685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 318079644231337150, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3231179124808615360, guid: 4bb38d49df9bbd04fac1d6ab322e25b3, type: 3}
       propertyPath: m_Pivot.x
@@ -1874,6 +1886,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1288711933}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1023728168
 MonoBehaviour:
@@ -2292,6 +2316,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1288711933}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1288711936
 MonoBehaviour:
@@ -3839,6 +3875,10 @@ PrefabInstance:
       propertyPath: defendFollowStrength
       value: 0.66
       objectReference: {fileID: 0}
+    - target: {fileID: 3041109561845491261, guid: 977640e2d4dc41b48976c6dbeb5d77a4, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -7898396995386204980, guid: ddf8569de6dbe2b47982b8d0cf858a52, type: 2}
     - target: {fileID: 5390257285827303880, guid: 977640e2d4dc41b48976c6dbeb5d77a4, type: 3}
       propertyPath: m_RootOrder
       value: 1

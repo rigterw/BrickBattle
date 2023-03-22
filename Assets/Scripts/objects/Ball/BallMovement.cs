@@ -38,6 +38,10 @@ public class BallMovement : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D col){
+        if(col.gameObject.CompareTag("Brick")){
+            //GetComponent<ParticleSystem>().Play();
+            Debug.Log("boom");
+        }
         if(hasFlipped)
             return;
         Vector3 collisionNormal = col.contacts[0].normal;

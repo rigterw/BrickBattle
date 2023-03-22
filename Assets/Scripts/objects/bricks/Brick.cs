@@ -21,14 +21,18 @@ public class Brick : MonoBehaviour
     /// <summary>
     /// destroys this gameObject
     /// </summary>
-    private void Destroy(){
+    private IEnumerator Destroy(){
         manager.Remove(gameObject);
+        GetComponent<ParticleSystem>().Play();
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other){
         if(!other.gameObject.CompareTag("Ball"))return;
 
-        Destroy();
+        StartCoroutine(Destroy());
     }
 }

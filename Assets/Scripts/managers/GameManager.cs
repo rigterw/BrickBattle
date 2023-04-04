@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     private void Score(float ballHeight){
         bgm.Stop();
+        ball.GetComponent<AudioSource>().Play();
         player scoringPlayer = ballHeight > 0 ? player.you : player.opponent;
         player loser = scoringPlayer == player.you ? player.opponent : player.you;
 
@@ -74,7 +75,6 @@ public class GameManager : MonoBehaviour
     }
 
     public IEnumerator resetBall(){
-
 
         ball.gameObject.SetActive(true);
         ball.position = new Vector2(0, 0);

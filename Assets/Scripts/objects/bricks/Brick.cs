@@ -26,6 +26,7 @@ public class Brick : MonoBehaviour
         GetComponent<ParticleSystem>().Play();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }

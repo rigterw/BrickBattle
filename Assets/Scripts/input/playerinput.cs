@@ -30,9 +30,12 @@ public class playerinput : MonoBehaviour
     /// <returns>-1 for left, 1 for right and 0 for none</returns>
     private Direction moveByGyro()
     {
-        return Direction.idle;
 
-        //TODO: add Gyro input
+       if(Input.gyro.rotationRateUnbiased.z > 3)
+            return Direction.right;
+        else if(Input.gyro.rotationRateUnbiased.z < -3)
+            return Direction.left;
+        return Direction.idle;
     }
 
 

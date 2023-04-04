@@ -22,10 +22,13 @@ public class playerController : MonoBehaviour
 
     }
 
-    public void Move(Direction direction){
-        
-        transform.position += new Vector3((int)direction * speed * speedScale, 0,0);
+    public void Move(float amount){
+        transform.position += new Vector3(amount * speed * speedScale, 0, 0);
         transform.position = ConstrainPosition(transform.position);
+    }
+    public void Move(Direction direction){
+        Move((float)direction);
+
 
     }
 

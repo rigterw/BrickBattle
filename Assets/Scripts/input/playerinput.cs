@@ -6,6 +6,8 @@ using UnityEngine;
 public class playerinput : MonoBehaviour
 {
     playerController controller;
+    float tilt;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,22 +22,22 @@ public class playerinput : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Direction direction = SystemInfo.supportsGyroscope ? moveByGyro() : moveByTouch();
-        controller.Move(direction);
+        Debug.Log(Input.gyro.rotationRateUnbiased);
+        if(SystemInfo.supportsGyroscope)
+            moveByGyro();
+        else
+            moveByTouch();
+            
     }
 
     /// <summary>
     /// returns direction according to phone rotation
     /// </summary>
     /// <returns>-1 for left, 1 for right and 0 for none</returns>
-    private Direction moveByGyro()
+    private void moveByGyro()
     {
-
-       if(Input.gyro.rotationRateUnbiased.z > 3)
-            return Direction.right;
-        else if(Input.gyro.rotationRateUnbiased.z < -3)
-            return Direction.left;
-        return Direction.idle;
+        tilt -= Input.gyro.rotationRateUnbiased.z;
+        controller.Move(tilt * 0.1f);
     }
 
 
@@ -43,11 +45,11 @@ public class playerinput : MonoBehaviour
     /// calculates a direction from the touch inputs
     /// </summary>
     /// <returns>-1 for left, 1 for right and 0 for no direction</returns>
-    private Direction moveByTouch(){
+    private void moveByTouch(){
         int direction = 0;
-
+        Direction dir = Direction.left;
         if(Input.touchCount <= 0)
-            return Direction.idle;
+             dir = Direction.idle;
 
         for (int i = 0; i < Input.touchCount; i++)
         {
@@ -57,8 +59,31 @@ public class playerinput : MonoBehaviour
         }
 
         if(direction == 0)
-            return Direction.idle;
+            dir = Direction.idle;
+        if(dir != Direction.idle)
+            dir = direction > 0 ? Direction.right : Direction.left;
+        controller.Move(dir);
+    }
 
-        return direction > 0 ? Direction.right : Direction.left;
+    private Vector3 GetTilt()
+    {
+        Quaternion referenceRotation = Quaternion.Euler(0, 0, 0);
+        Quaternion deviceRotation = ReadGyroscopeRotation();
+
+        Quaternion eliminationOfXY = Quaternion.Inverse(
+            Quaternion.FromToRotation(referenceRotation * Vector3.forward,
+                                      deviceRotation * Vector3.forward)
+        );
+
+        Vector3 tilt = eliminationOfXY * (deviceRotation * Vector3.right);
+
+        return tilt;
+    }
+
+    private Quaternion ReadGyroscopeRotation()
+    {
+        Quaternion gyroAttitude = Input.gyro.attitude;
+        gyroAttitude = Quaternion.Euler(90, 0, 0) * (new Quaternion(0, 0, 1, 0) * gyroAttitude);
+        return gyroAttitude;
     }
 }

@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI messageField;
     private GameObject resetButton;
     private TextMeshProUGUI scoreUI;
-    private int txtAlfa = 0;
     private scoreTracker scoreTracker;
     private BrickManager brickManager;
     [SerializeField]private Transform ball;

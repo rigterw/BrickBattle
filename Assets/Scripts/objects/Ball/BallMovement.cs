@@ -36,7 +36,7 @@ public class BallMovement : MonoBehaviour
 
 
 
-
+    
     void OnCollisionEnter2D(Collision2D col){
         if(hasFlipped)
             return;

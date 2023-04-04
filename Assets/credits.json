@@ -1,0 +1,47 @@
+{
+    "music": [
+        {
+            "desc": "main menu background music",
+            "author": "Destiny Knight",
+            "link:": "https://destiny-knight.itch.io/free-8-bits-music-pack-3"
+        },
+        {
+            "desc": "ingame music",
+            "author": "Destiny Knight",
+            "link:": "https://destiny-knight.itch.io/free-8-bits-music-pack-3"
+        }
+    ],
+    "soundFX": [
+        {
+            "desc": "paddle Soundeffect",
+            "author": "dagurasusketch",
+            "link": "https://dagurasusketch.itch.io/retrosounds"
+        },
+        {
+            "desc": "Score sound effect",
+            "author": "YourPalRob",
+            "link": "https://yourpalrob.itch.io/classic-arcade-sound-effects"
+        },
+        {
+            "desc": "brick hit sound effect",
+            "author": "YourPalRob",
+            "link": "https://yourpalrob.itch.io/classic-arcade-sound-effects"
+        }
+    ],
+    "textures": [
+        {
+            "desc": "UI Textures",
+            "author": "wenrexa",
+            "link": "https://wenrexa.itch.io/uimobile-free"
+        },
+        {
+            "desc": "Background",
+            "author": "GameSupplyGuy",
+            "link": "https://gamesupply.itch.io/50-xy-repeat-space-backgrounds"
+        },
+        {
+            "desc": "Brick Textures",
+            "author": "rigterw"
+        }
+    ]
+}

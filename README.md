@@ -1,2 +1,2 @@
 # BrickBattle
-This is a unity project for a mobile game which is a combination of pong and brick breaker
+This is a unity project for a mobile game based on the arcade games pong and breakout
